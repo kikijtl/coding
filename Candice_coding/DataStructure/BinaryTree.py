@@ -58,6 +58,44 @@ class BinaryTree:
         if not r:
             return 0
         return max(self.get_height(r.left), self.get_height(r.right))+1
+    
+    def preorder_traversal_iter(self, r):
+        stack = []
+        stack.append(r)
+
+        while stack:
+            current = stack.pop()
+            if current.right:
+                stack.append(current.right)
+            if current.left:
+                stack.append(current.left)
+            print current.data,
+        print
+
+    
+
+    def level_order_traversal(self,r):
+
+        q = deque([])
+        q.append(r)
+        current_level = 1
+        next_level = 0
+
+        while q:
+            current = q.popleft()
+            current_level -= 1
+            if current.left:
+                q.append(current.left)
+                next_level += 1
+            if current.right:
+                q.append(current.right)
+                next_level += 1
+            print current.data,
+            if current_level == 0:
+                print
+                current_level = next_level
+                next_level = 0
+        print
 
 if __name__=='__main__':
     ''' The tree is:
