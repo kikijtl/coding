@@ -1,6 +1,6 @@
 ''' Implement a binary tree class
 '''
-
+from collections import deque
 class TreeNode:
     def __init__(self, data):
         self.data = data
@@ -34,6 +34,21 @@ class BinaryTree:
         if n.right!=None:
             n.right.parent=n
         self.root=n
+        return n
+    
+    def create_tree_post_in(self, post_order, in_order):
+        if len(post_order)==0:
+            return None
+        l=len(post_order)-1
+        n=TreeNode(post_order[l])
+        pos=in_order.index(post_order[l])
+        n.left=self.create_tree_post_in(post_order[:pos], in_order[:pos])
+        if n.left != None:
+            n.left.parent = n
+        n.right=self.create_tree_post_in(post_order[pos:l], in_order[pos+1:])
+        if n.right != None:
+            n.right.parent = n
+        self.root = n
         return n
     
     def pre_order_traversal_recur(self, r):
@@ -112,9 +127,13 @@ if __name__=='__main__':
     t=BinaryTree()
     pre_order=[1,2,4,5,6,12,7,3,8,9,10,11]
     in_order=[4,2,12,6,5,7,1,8,3,10,9,11]
-    root=t.create_tree(pre_order, in_order)
-    
+    post_order=[4,12,6,7,5,2,8,10,11,9,3,1]
+    root=t.create_tree(post_order, in_order, indicator='post_in')
     
     t.pre_order_traversal_recur(root)
+    print
+    t.in_order_traversal_recur(root)
+    print
+    t.level_order_traversal(root)
     print
     print t.get_height(root)
