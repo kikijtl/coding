@@ -7,6 +7,9 @@ class TreeNode:
         self.left = None
         self.right = None
         self.parent = None
+    
+    def __repr__(self):
+        return '%s(%r)' %(self.__class__.__name__, self.data)
 
 class BinaryTree:
     def __init__(self):
