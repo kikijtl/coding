@@ -62,6 +62,21 @@ class LinkList:
         target_node = p.next
         p.next = target_node.next
         del target_node
+        
+    def removeNode(self, x):
+        d = ListNode(-1)
+        d.next = self.head
+        prev = d
+        curr = self.head
+        while curr:
+            if curr.val == x:
+                prev.next = curr.next
+                curr.next = None
+                curr = prev.next
+            else:
+                prev = curr
+                curr = curr.next
+        self.head = d.next
     
     def print_list(self):
         p = self.head
@@ -110,12 +125,16 @@ if __name__=='__main__':
     #node = ListNode(3)
     #print node.val, node.next
     my_list = LinkList()
-    list_data = [3,7,5,1,4,6]
+    list_data = [3,3,3,5,7,3,3]
     for i, data in enumerate(list_data):
         my_list.add_node(data, i)
     my_list.print_list()
+    my_list.removeNode(3)
+    my_list.print_list()
+    '''
     my_list.add_circle(2)
     print my_list.check_circle()
+    '''
     '''
     my_list.reverse()
     my_list.print_list()
