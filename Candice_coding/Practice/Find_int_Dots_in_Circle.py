@@ -29,3 +29,6 @@ if __name__ == '__main__':
     b = 2
     for r in test_case:
         print findDots(a, b, r)
+        
+        
+        

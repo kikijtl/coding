@@ -18,5 +18,26 @@ def happyNum(n):
     
 
 if __name__ == '__main__':
-   for i in range(1, 15, 2):
+   for i in range(1, 30, 2):
        print (i, happyNum(i)),
+       
+'''       
+def pureNum(n):
+    dic = {}
+    while n != 1 and n not in dic:
+        sum = 0
+        dic[n] = 0
+        while n > 0:
+            sum += n%10
+            n /= 10
+        n = sum**2
+    if n == 1:
+        return True
+    else:
+        return False
+    
+if __name__ == '__main__':
+    for i in range(1, 30, 3):
+        print (i, pureNum(i)),
+        
+'''
