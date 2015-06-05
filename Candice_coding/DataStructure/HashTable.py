@@ -35,6 +35,22 @@ class HashTable:
             head = head.next
         return None
     
+    def delete(self, key):
+        idx = self._hash_function(key)
+        head = self.table[idx]
+        if not head:
+            return -1
+        if head.key == key:
+            self.table[idx] = head.next
+            return 1
+        while head.next and head.next.key != key:
+            head = head.next
+        if not head.next:
+            return -1
+        head.next = head.next.next
+        
+            
+    
 
 if __name__ == '__main__':
     mytable = HashTable(10)
@@ -45,5 +61,8 @@ if __name__ == '__main__':
     print mytable.find('yifei')
     print mytable.find('yuqi')
     print mytable.find('')
+    mytable.delete('')
+    print mytable.find('')
+    print mytable.delete('jason')
     
         
