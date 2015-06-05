@@ -57,6 +57,7 @@ def mapper(sim, orig_rt):
             elif p_rating_i > 5:
                 p_rating_i = 5
             err = abs(p_rating_i - float(rating_i))
+            #The mapper output is: uid:mv_i    predict_rating,absolute_error
             with open(output, 'a') as out:
                 out.write('%s:%s    %s,%s\n' % (uid, mv_i, p_rating_i, err))
                 out.close()
