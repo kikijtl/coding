@@ -26,13 +26,13 @@ def mapper(sim, orig_rt):
     orig_lines = orig_lines.splitlines()
     orig_f.close()
     for line in orig_lines:
-        #The input line format is: uid mv1:rating1,mv2:rating2,...
+        #The input line format is: uid    rt_count,rt_avg,mv1:rating1,mv2:rating2,...
         if line == '':
             continue
         k_v = line.split()
         uid = k_v[0]
         orig_ratings = k_v[1].strip()
-        orig_ratings = orig_ratings.split(',')
+        orig_ratings = orig_ratings.split(',')[2:]
         for item_i in orig_ratings:
             mv_i, rating_i = item_i.split(':')[0], item_i.split(':')[1]
             p_sum = 0
@@ -40,19 +40,19 @@ def mapper(sim, orig_rt):
             p_rating_i = -1
             for item_j in orig_ratings:
                 mv_j, rating_j = item_j.split(':')[0], item_j.split(':')[1]
-                if (mv_i, mv_j) not in sim_tb:
+                if (mv_i, mv_j) not in sim_tb or mv_i == mv_j:
                     #print (mv_i,mv_j)
                     continue
                 p_sum += int(rating_j) * sim_tb[(mv_i, mv_j)]
                 p_count += abs(sim_tb[(mv_i, mv_j)])
             if p_count == 0:
                 #print rating_i
-                p_rating_i = int(rating_i)
+                p_rating_i = 0
             else:
                 p_rating_i = round(p_sum / float(p_count), 4)
                 #Get the predicted rating through average
             #Adjust the predicted rating range
-            if p_rating_i < 1:
+            if p_rating_i < 1 and p_rating_i != 0:
                 p_rating_i = 1
             elif p_rating_i > 5:
                 p_rating_i = 5
