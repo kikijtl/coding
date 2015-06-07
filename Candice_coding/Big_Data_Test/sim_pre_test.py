@@ -31,8 +31,9 @@ def mapper(sim, orig_rt):
             continue
         k_v = line.split()
         uid = k_v[0]
-        orig_ratings = k_v[1].strip()
-        orig_ratings = orig_ratings.split(',')[2:]
+        orig_ratings_ls = k_v[1].strip()
+        rt_avg = orig_ratings_ls.split(',')[1]
+        orig_ratings = orig_ratings_ls.split(',')[2:]
         for item_i in orig_ratings:
             mv_i, rating_i = item_i.split(':')[0], item_i.split(':')[1]
             p_sum = 0
@@ -43,16 +44,16 @@ def mapper(sim, orig_rt):
                 if (mv_i, mv_j) not in sim_tb or mv_i == mv_j:
                     #print (mv_i,mv_j)
                     continue
-                p_sum += int(rating_j) * sim_tb[(mv_i, mv_j)]
+                p_sum += (int(rating_j)-int(rt_avg)) * sim_tb[(mv_i, mv_j)]
                 p_count += abs(sim_tb[(mv_i, mv_j)])
             if p_count == 0:
                 #print rating_i
-                p_rating_i = 0
+                continue
             else:
-                p_rating_i = round(p_sum / float(p_count), 4)
+                p_rating_i = int(rt_avg) + round(p_sum / float(p_count), 4)
                 #Get the predicted rating through average
             #Adjust the predicted rating range
-            if p_rating_i < 1 and p_rating_i != 0:
+            if p_rating_i < 1:
                 p_rating_i = 1
             elif p_rating_i > 5:
                 p_rating_i = 5
@@ -97,9 +98,6 @@ if __name__ == '__main__':
     #m_out = 'D:\COEN242ProjectTest\SlopeOneMap.txt'
     reducer(m_out)
     
-    '''
-    The MAE for small_input.txt is 0.2679
-    '''
     
                 
             
