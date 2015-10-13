@@ -1,5 +1,5 @@
 
-def recommender(sim, orig_rt):
+def recommendation(sim, orig_rt):
     sim_f = open(sim, 'r')
     sim_rc = sim_f.read()
     sim_lines = sim_rc.strip()  #remove whitespaces in head and tail
@@ -20,6 +20,9 @@ def recommender(sim, orig_rt):
                 sim_tb[(mv_i, mv_j)] = round(float(sim), 4)
                 #print sim_tb[(mv_i,mv_j)]
     #Now we have the sim_tb
+    
+
+
     orig_f = open(orig_rt, 'r')
     orig_rc = orig_f.read()
     orig_lines = orig_rc.strip()
@@ -34,7 +37,8 @@ def recommender(sim, orig_rt):
         k_v = line.split()
         uid = k_v[0]
         orig_ratings = k_v[1].strip()
-        orig_ratings = orig_ratings.split(',')
+        rt_avg = orig_ratings.split(',')[1]
+        orig_ratings = orig_ratings.split(',')[2:]
         n = len(orig_ratings)
         for item_i in orig_ratings:
             mv_i, rating_i = item_i.split(':')[0], item_i.split(':')[1]
@@ -61,7 +65,7 @@ def recommender(sim, orig_rt):
                 p_sum += rt_tb[rt_his] * sim_tb[(mv_j, mv_i)]
                 p_count += abs(sim_tb[(mv_j, mv_i)])
                 count += 1
-            if p_count != 0 and count > n/80:
+            if p_count != 0 and count > n/3:
                 p_rating_j = round(p_sum / float(p_count), 4)
                 #Get the predicted rating through average
             #Adjust the predicted rating range
@@ -71,7 +75,7 @@ def recommender(sim, orig_rt):
             elif p_rating_j > 5:
                 p_rating_j = 5
             
-            k = 10  #The number of recommended movies!!!
+            k = 20  #The number of recommended movies!!!
             if len(rec_ls) < k:
                 rec_ls.append((p_rating_j, mv_j))
             else:
@@ -81,7 +85,7 @@ def recommender(sim, orig_rt):
         rec_ls.sort(reverse=True)
         print 'Recommendation For User %s:' % uid
         for item in rec_ls:
-            print item  #Don't forget the ,
+            print item,  #Don't forget the ,
             #print item[1],
         print
         '''
@@ -97,14 +101,10 @@ def recommender(sim, orig_rt):
 
 
 if __name__ == '__main__':
-    '''
-    sim = 'D:\COEN242ProjectTest\small_sim_reduce_topk.txt'
-    orig_rt = 'D:\COEN242ProjectTest\small_input.txt'
-    '''
-    sim = 'D:\COEN242ProjectTest\Step3_TopKOutput.txt'
-    orig_rt = 'D:\COEN242ProjectTest\UID864.txt'
     
-    recommender(sim, orig_rt)
+    sim = 'D:\COEN242ProjectTest\Step3_Top500_AdjCosine.txt'
+    orig_rt = 'D:\COEN242ProjectTest\UID_Yuqi.txt'
+    recommendation(sim, orig_rt)
     
 
     
