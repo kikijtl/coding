@@ -23,22 +23,26 @@ The space complexity should be no more than O(X).
 
     
 def solution(A, X, D):
-    # This solution has not yet been proved to be right.
-    if A[0] + D >= X: return 0
-    if max(A) + D < X: return -1
-    if min(A) > D: return -1
-    leaves = [float('inf')] * X
+    bin_num = (-X-1) / (D+1)
+    bin_num = -bin_num
+    bins = [[float('inf'), -float('inf')] for i in xrange(bin_num)]
+    count = 0
     for i in xrange(len(A)):
-        pos = A[i]
-        leaves[pos] = min(leaves[pos], i)
-    jump = D
-    end = D
-    while end < X:
-        if leaves[end] < float('inf'):
-            leaves[end] = max(leaves[end-D: end])
-        end += 1
-    ans = min(leaves[X-D: X])
-    if ans < float('inf'): return ans
+        bin_index = A[i] / (D+1)
+        if bins[bin_index][0] > A[i]:
+            bins[bin_index][0] = A[i]
+            if bin_index > 0 and bins[bin_index-1][1] + D > bins[bin_index][0]:
+                count += 1
+                bins[bin_index-1][1] = float('inf')
+                bins[bin_index][0] = -float('inf')
+        if bins[bin_index][1] < A[i]:
+            bins[bin_index][1] = A[i]
+            if bin_index < len(bins)-1 and bins[bin_index][1] + D > bins[bin_index+1][0]:
+                count += 1
+                bins[bin_index][1] = float('inf')
+                bins[bin_index+1][0] = -float('inf')
+        if count == bin_num - 1:
+            return i
     return -1
 
 
