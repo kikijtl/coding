@@ -17,6 +17,9 @@
 # numArray.update(1, 10)
 # numArray.sumRange(1, 2)
 
+# For Segment Tree, see:
+# http://bookshadow.com/weblog/2015/08/13/segment-tree-set-1-sum-of-given-range/
+
 import math
 
 class NumArray(object):
