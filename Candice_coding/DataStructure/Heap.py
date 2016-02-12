@@ -15,8 +15,8 @@ class Heap:
             self.heapify(2*i+2)
         else:
             if 2*i+2 < n and self.heap[2*i+2] < self.heap[2*i+1]:
-               self.heap[i],self.heap[2*i+2] = self.heap[2*i+2],self.heap[i]
-               self.heapify(2*i+2) 
+                self.heap[i],self.heap[2*i+2] = self.heap[2*i+2],self.heap[i]
+                self.heapify(2*i+2) 
             else:
                 self.heap[i],self.heap[2*i+1] = self.heap[2*i+1],self.heap[i]
                 self.heapify(2*i+1)
