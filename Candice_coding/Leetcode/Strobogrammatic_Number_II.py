@@ -30,5 +30,5 @@ class Solution(object):
     
 
 if __name__ == '__main__':
-    n = 2
+    n = 1
     print Solution().findStrobogrammatic(n)
