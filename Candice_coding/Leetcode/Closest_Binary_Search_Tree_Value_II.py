@@ -35,7 +35,9 @@ class Solution(object):
         incr = []
         decr = []
         self._getInOrderStack(root, target, incr, increase=True)
+        # Put all elements that are equal or smaller than target into incr stack in increasing order
         self._getInOrderStack(root, target, decr, increase=False)
+        # Put all elements that are larger than target in decr stack in decreasing order
         result = []
         while len(result) < k:
             if not incr:
