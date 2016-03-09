@@ -45,5 +45,5 @@ def combine(tmpResult):
     return abbr
 
 if __name__ == '__main__':
-    word = 'home'
+    word = 'localization'
     print allAbbr(word)
